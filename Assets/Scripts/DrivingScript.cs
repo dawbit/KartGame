@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +19,7 @@ public class DrivingScript : MonoBehaviour
     public float currentGearPerc; 
     public int numGears = 5;
     
-    //public GameObject backLights;
+    public GameObject backLights;
 
 
     public void Drive(float accel, float brake, float steer)
@@ -28,10 +28,13 @@ public class DrivingScript : MonoBehaviour
         steer = Mathf.Clamp(steer, -1, 1) * maxSteerAngle;
         brake = Mathf.Clamp(brake, 0, 1) * maxBrakeTorque;
 
-        ////włączanie światła
-        //if (brake != 0) backLights.SetActive(true);
-        //else backLights.SetActive(false);
-        ////
+        //włączanie światła
+        if (brake != 0) {
+            backLights.SetActive(true);
+        }
+        else {
+            backLights.SetActive(false);
+        }
 
         float thrustTorque = 0;
 
@@ -62,8 +65,10 @@ public class DrivingScript : MonoBehaviour
         float gearPercentage = (1 / (float)numGears);
         float targetGearFactor = Mathf.InverseLerp(gearPercentage * currentGear, gearPercentage * (currentGear + 1), Mathf.Abs(currentSpeed / maxSpeed));
 
+        //określamy ile mocy naszego biegu mamy, jak dojdzie do 100 lub 0 będziemy zmieniać bieg
         currentGearPerc = Mathf.Lerp(currentGearPerc, targetGearFactor, Time.deltaTime * 5f);
 
+        //wyliczamy obroty silnika
         var gearNumFactor = currentGear / (float)numGears;
         rpm = Mathf.Lerp(gearNumFactor, 1, currentGearPerc);
 
@@ -74,6 +79,7 @@ public class DrivingScript : MonoBehaviour
         if (currentGear > 0 && speedPercentage < downGearMax) currentGear--;
         if (speedPercentage > upperGearMax && (currentGear < (numGears - 1))) currentGear++;
 
+        
         float pitch = Mathf.Lerp(1, 6, rpm);
         engineSound.pitch = Mathf.Min(6, pitch) * 0.15f;
 
