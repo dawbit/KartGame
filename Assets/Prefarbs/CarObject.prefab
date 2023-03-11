@@ -327,6 +327,7 @@ MonoBehaviour:
   currentGearPerc: 0
   numGears: 5
   backLights: {fileID: 1654073740827306214}
+  cameraTarget: {fileID: 0}
 --- !u!114 &1654073740260979032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,7 +335,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654073740260979035}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8189ac6b447788845afa2ae4cf9b7862, type: 3}
   m_Name: 
