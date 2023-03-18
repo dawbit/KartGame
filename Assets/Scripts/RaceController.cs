@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Photon.Realtime;
+using Photon.Pun;
 
-public class RaceController : MonoBehaviour
+public class RaceController : MonoBehaviourPunCallbacks
 {
     public static bool racing = false;
     public static int totalLaps = 1;
@@ -22,14 +24,25 @@ public class RaceController : MonoBehaviour
     public Transform[] spawnPos;
     public int playerCount;
 
+    public GameObject startRace;
+    public GameObject waitingText;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
         endPanel.SetActive(false);
-        Debug.Log("------------------------");
         audioSource = GetComponent<AudioSource>();
         startText.gameObject.SetActive(false);
-        InvokeRepeating("CountDown", 3, 1);
+        //InvokeRepeating("CountDown", 3, 1);
+
+        startRace.SetActive(false);
+        waitingText.SetActive(false);
+
+        int randomStartPosition = Random.Range(0, spawnPos.Length);
+        Vector3 startPost = spawnPos[randomStartPosition].position;
+        Quaternion startRot = spawnPos[randomStartPosition].rotation;
+        GameObject playerCar = null;
 
         for (int i = 0; i < playerCount; i++)
         {
@@ -107,5 +120,28 @@ public class RaceController : MonoBehaviour
     public void LoadScene(int index)
     {
         SceneManager.LoadScene(index);
+    }
+
+    [PunRPC]
+    public void StartGame()
+    {
+        InvokeRepeating("CountDown", 3, 1);
+        startRace.SetActive(false);
+        waitingText.SetActive(false);
+
+        GameObject[] cars = GameObject.FindGameObjectsWithTag("Car");
+        carsController = new CheckPointController[cars.Length];
+        for (int i = 0; i < cars.Length; i++)
+        {
+            carsController[i] = cars[i].GetComponent<CheckPointController>();
+        }
+    }
+
+    public void BeginGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("StartGame", RpcTarget.All, null);
+        }
     }
 }
