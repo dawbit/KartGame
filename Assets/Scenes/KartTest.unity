@@ -1861,6 +1861,7 @@ GameObject:
   - component: {fileID: 1254778469}
   - component: {fileID: 1254778470}
   - component: {fileID: 1254778471}
+  - component: {fileID: 1254778472}
   m_Layer: 0
   m_Name: RaceController
   m_TagString: Untagged
@@ -1907,6 +1908,8 @@ MonoBehaviour:
   - {fileID: 1606666199}
   - {fileID: 1300032782}
   playerCount: 1
+  startRace: {fileID: 154118128}
+  waitingText: {fileID: 291762103}
 --- !u!82 &1254778471
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2003,6 +2006,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1254778472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254778468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 7
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1271861667
 GameObject:
   m_ObjectHideFlags: 0
@@ -3513,7 +3538,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2066714490}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1254778470}
+        m_TargetAssemblyTypeName: RaceController, Assembly-CSharp
+        m_MethodName: BeginGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2066714490
 MonoBehaviour:
   m_ObjectHideFlags: 0
