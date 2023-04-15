@@ -11,6 +11,7 @@ public class RaceController : MonoBehaviourPunCallbacks
     public static bool racing = false;
     public static int totalLaps = 1;
     public int timer = 3;
+
     public CheckPointController[] carsController;
 
     public Text startText;
@@ -44,27 +45,6 @@ public class RaceController : MonoBehaviourPunCallbacks
         Vector3 startPos = spawnPos[randomStartPosition].position;
         Quaternion startRot = spawnPos[randomStartPosition].rotation;
         GameObject playerCar = null;
-
-        // for (int i = 0; i < playerCount; i++)
-        // {
-        //     GameObject car = Instantiate(carPrefarb);
-        //     car.transform.position = spawnPos[i].position;
-        //     car.transform.rotation = spawnPos[i].rotation;
-        //     car.GetComponent<CarAprerance>().playerNumber = i;
-
-        //     if (i == 0)
-        //     {
-        //         car.GetComponent<PlayerController>().enabled = true;
-        //         GameObject.FindObjectOfType<CamerController>().SetCameraProperties(car);
-        //     }
-        // }
-
-        // GameObject[] cars = GameObject.FindGameObjectsWithTag("Car");
-        // carsController = new CheckPointController[cars.Length];
-        // for (int i = 0; i < cars.Length; i++)
-        // {
-        //     carsController[i] = cars[i].GetComponent<CheckPointController>();
-        // }
 
         if (PhotonNetwork.IsConnected)
         {
@@ -111,6 +91,7 @@ public class RaceController : MonoBehaviourPunCallbacks
             if (controller.lap == totalLaps + 1)
             {
                 finishedLaps++;
+                Debug.Log(finishedLaps);
             }
             if (finishedLaps == carsController.Length && racing)
             {
@@ -127,6 +108,7 @@ public class RaceController : MonoBehaviourPunCallbacks
         startText.gameObject.SetActive(true);
         if (timer != 0)
         {
+            startRace.SetActive(false);
             Debug.Log("Rozpoczęcie wyścigu za: " + timer);
             startText.text = timer.ToString();
             audioSource.PlayOneShot(count);

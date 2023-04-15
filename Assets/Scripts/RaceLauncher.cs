@@ -17,8 +17,8 @@ public class RaceLauncher: MonoBehaviourPunCallbacks {
         if (PlayerPrefs.HasKey("PlayerName")) playerName.text = PlayerPrefs.GetString("PlayerName");
     }
 
-    public void SetName(string name) {
-        PlayerPrefs.SetString("PlayerName", name);
+    public void SetName() {
+        PlayerPrefs.SetString("PlayerName", playerName.text);
     }
 
     public void StartTrial() {
@@ -57,6 +57,7 @@ public class RaceLauncher: MonoBehaviourPunCallbacks {
         networkText.text = "";
         isConnecting = true;
         PhotonNetwork.NickName = playerName.text;
+        Debug.Log(PhotonNetwork.NickName);
         if (PhotonNetwork.IsConnected)
         {
             networkText.text += "Joining Room...\n";

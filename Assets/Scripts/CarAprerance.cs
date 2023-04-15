@@ -12,6 +12,10 @@ public class CarAprerance : MonoBehaviour
     public int playerNumber;
     public Camera backCamera;
 
+    int carRego;
+    bool regoSet = false;
+    public CheckPointController checkPoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,23 +39,35 @@ public class CarAprerance : MonoBehaviour
         // nameText.color = carColor;
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        
+        if (!regoSet)
+        {
+            carRego = Leaderboard.RegisterCar(playerName);
+            regoSet = true;
+            return;
+        }
+
+        Leaderboard.SetPosition(carRego, checkPoint.lap, checkPoint.checkPoint);
     }
 
     public void SetNameAndColor(string name, Color color)
     {
+        playerName = name;
         nameText.text = name;
         carRenderer.material.color = color;
         nameText.color = color;
+        Debug.Log(playerName);
+        Debug.Log(nameText.text);
+
     }
 
     public void SetLocalPlayer()
     {
         FindObjectOfType<CamerController>().SetCameraProperties(this.gameObject);
         playerName = PlayerPrefs.GetString("PlayerName");
+        Debug.Log("TEST!");
+        Debug.Log(playerName);
         carColor = ColorCar.IntToColor(PlayerPrefs.GetInt("Red"), PlayerPrefs.GetInt("Green"), PlayerPrefs.GetInt("Blue"));
         nameText.text = playerName;
         carRenderer.material.color = carColor;
